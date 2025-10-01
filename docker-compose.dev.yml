@@ -1,0 +1,27 @@
+# ===========================================================
+#       🐳 🐳 🐳 🐳 🐳 DOCKER COMPOSE DEV 🐳 🐳 🐳 🐳 🐳
+# ===========================================================
+# docker-compose up:    docker-compose -f docker-compose.dev.yml up
+# docker-compose logs:  docker-compose -f docker-compose.dev.yml logs -f
+# docker-compose down:  docker-compose -f docker-compose.dev.yml down --rmi all --remove-orphans
+#                       // Deletes all images - JUST MAKE SURE VOLUMES WON'T BE DELETED
+
+services:
+  data-generator-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server/app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  data-generator-client:
+    image: python:3.13-slim
+    working_dir: /client
+    volumes:
+      - ./client:/client
+    ports:
+      - "3000:3000"
+    command: python3 -m http.server 3000

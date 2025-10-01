@@ -1,0 +1,43 @@
+# -------------------- Docker commands for building image and running it --------------------
+
+# Build image based on Dockerfile -> docker build -t data-generator-server .
+# Run docker image -> docker run -d --name python-fileupload -p 8000:8000 python-fileupload
+
+# THIS WAS A HUGE HELP: https://medium.com/@albertazzir/blazing-fast-python-docker-builds-with-poetry-a78a66f5aed0
+
+# -------------------------------------------------------------------------------------------
+
+# Use official Python 3.13 slim image
+FROM python:3.13-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Poetry (latest)
+RUN curl -sSL https://install.python-poetry.org | python3 - \
+    && ln -s /root/.local/bin/poetry /usr/local/bin/poetry
+
+# Configure Poetry to not create virtualenvs (we stay inside container)
+ENV POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_NO_INTERACTION=1
+
+# Copy only dependency files first for caching
+COPY pyproject.toml poetry.lock* /app/
+
+# Install all dependencies, including dev for dev environment
+RUN poetry install --no-root
+
+# Copy app code
+COPY ./app ./app
+
+# Expose FastAPI port
+EXPOSE 8000
+
+# Default command: start uvicorn with hot reload
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

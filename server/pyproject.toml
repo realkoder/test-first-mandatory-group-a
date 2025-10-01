@@ -2,7 +2,7 @@
 name = "server"
 version = "0.1.0"
 description = ""
-packages = [{ include = "app", from = "." }]
+packages = [{ include = "app" }]
 
 requires-python = ">=3.13"
 dependencies = [

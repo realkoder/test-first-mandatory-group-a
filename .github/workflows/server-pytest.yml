@@ -40,7 +40,7 @@ jobs:
       - name: Change to server directory and install dependencies
         working-directory: ./server
         run: |
-          poetry install
+          poetry install --no-root
 
       - name: Run tests with pytest
         working-directory: ./server

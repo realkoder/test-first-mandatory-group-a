@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
@@ -18,35 +18,35 @@ async def get_name_gender():
 
 
 @app.get("/name-gender-dob")
-async def get_name_gender():
+async def get_name_gender_dob():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/cpr-name-gender")
-async def get_name_gender():
+async def get_cpr_name_gender():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/cpr-name-gender-dob")
-async def get_name_gender():
+async def get_cpr_name_gender_dob():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/address")
-async def get_name_gender():
+async def get_address():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/phone")
-async def get_name_gender():
+async def get_phone():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/person")
-async def get_name_gender():
+async def get_person():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 
 
 @app.get("/person&n={number_of_fake_persons}")
-async def get_person(number_of_fake_persons: int):
+async def get_multiple_persons(number_of_fake_persons: int):
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")

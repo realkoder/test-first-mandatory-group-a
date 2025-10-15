@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Tests and Lint
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     paths:
       - 'server/**'
   pull_request:
-    branches: [ main ]
+    branches: [ main]
     paths:
       - 'server/**'
 
@@ -41,6 +41,11 @@ jobs:
         working-directory: ./server
         run: |
           poetry install --no-root
+
+      - name: Run Pylint
+        working-directory: ./server
+        run: |
+          poetry run pylint app --exit-zero
 
       - name: Run tests with pytest
         working-directory: ./server

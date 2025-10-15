@@ -15,7 +15,11 @@ services:
       - "8000:8000"
     volumes:
       - ./server/app:/app/app
+      - ./server/.env:/app/.env:ro
+      - ./server/app/assets:/app/assets:ro
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - mysql
 
   data-generator-client:
     image: python:3.13-slim
@@ -25,3 +29,21 @@ services:
     ports:
       - "3000:3000"
     command: python3 -m http.server 3000
+
+  mysql:
+    image: mysql:8.1
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: addresses
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0 # Quickfix for this error:  RuntimeError: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+    volumes:
+      # Mount SQL dump to auto-load on container initialization
+      - ./server/app/assets/addresses.sql:/docker-entrypoint-initdb.d/addresses.sql:ro
+      - data_generator_mysql_data:/var/lib/mysql
+
+volumes:
+  data_generator_mysql_data:
+    name: data_generator_mysql_data

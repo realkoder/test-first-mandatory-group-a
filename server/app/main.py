@@ -13,7 +13,9 @@ async def lifespan(_: FastAPI):
     yield
     print("🛑 SHUTDOWN")
 
+
 app = FastAPI(lifespan=lifespan)
+
 
 @app.get("/")
 async def root():
@@ -30,12 +32,13 @@ async def get_name_gender():
     result = await get_random_name_gender()
     if not result:
         raise HTTPException(
-             status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="No names available in dataset"
         )
     return result
 
-@app.get("/name-gender-dob",status_code=status.HTTP_200_OK)
+
+@app.get("/name-gender-dob", status_code=status.HTTP_200_OK)
 async def get_name_gender_dob():
     raise HTTPException(status_code=500, detail="IMPLEMENT ME")
 

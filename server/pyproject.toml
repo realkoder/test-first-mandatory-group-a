@@ -7,7 +7,10 @@ packages = [{ include = "app" }]
 requires-python = ">=3.13"
 dependencies = [
     "fastapi (>=0.118.0,<0.119.0)",
-    "uvicorn (>=0.37.0,<0.38.0)"
+    "uvicorn (>=0.37.0,<0.38.0)",
+    "tortoise-orm (>=0.25.1,<0.26.0)",
+    "aiomysql (>=0.2.0,<0.3.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)",
 ]
 
 [build-system]
@@ -23,3 +26,25 @@ pylint = "^4.0.1"
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = [
+    "ignore::DeprecationWarning:tortoise",
+    "ignore::DeprecationWarning:fastapi"
+]
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError"
+]

@@ -76,3 +76,33 @@ Added this to `pyproject.toml` to define python root path and path for test file
 pythonpath = ["."]
 testpaths = ["tests"]
 ```
+
+---
+
+<br>
+
+## Static code analysis
+
+_Pylint_ is configured for the project to ensure clean, readable, and
+maintainable code by automatically detecting code style issues and potential errors.
+
+![Wiki python static tools](assets/wiki-python-static-tools.png)
+
+_from https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis_
+
+---
+
+### Configuration
+
+The following was done to configure _Pylint_ for `./server` _Python_ project:
+
+```bash
+# 1. Add _Pylint_ as dev dependency
+poetry run pylint --generate-rcfile > .pylintrc
+
+# 2. Create a _Pylint_ configuration file
+poetry run pylint --generate-rcfile > .pylintrc
+
+# 3. Run _Pylint_ via _Poetry_
+poetry run pylint app
+```

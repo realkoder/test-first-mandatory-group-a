@@ -42,7 +42,7 @@ jobs:
 
       - name: 🌐 Verify FastAPI is responding
         run: |
-          curl -f http://localhost:8000/docs || (echo "❌ FastAPI not reachable" && exit 1)
+          curl -sf -o /dev/null http://localhost:8000/docs || (echo "❌ FastAPI not reachable" && exit 1)
 
       # ----------------------------
       # 🧱 Node & Cypress Setup

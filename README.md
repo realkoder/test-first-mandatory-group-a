@@ -98,6 +98,9 @@ module.exports = defineConfig({
 });
 ```
 
+Run project locally in test mode to test _sqlite3_ `PYTHON_ENV=test poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000`
+
+
 ---
 
 Run _Cypress_ E2E tests:

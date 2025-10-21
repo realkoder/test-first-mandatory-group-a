@@ -70,4 +70,5 @@ jobs:
       # ----------------------------
       - name: 🧪 Run Cypress E2E tests
         working-directory: ./client
-        run: npx cypress run --browser chrome
+        run: npx cypress run --browser chrome --headless
+

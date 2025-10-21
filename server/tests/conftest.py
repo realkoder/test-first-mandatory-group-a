@@ -1,4 +1,3 @@
-# tests/conftest.py
 import pytest
 import asyncio
 from tortoise import Tortoise

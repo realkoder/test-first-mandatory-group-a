@@ -2,15 +2,21 @@
 
 ## Tech-stack
 
-- **Frontend** - _Arturo's Fake Data Generator Frontend_
-    - _HTML_
-    - _JS_
-    - _CSS_
-- **Backend**
-    - _Python_ Server
-        - _Poetry_ as package manager
-        - _FastAPI_ as web framework
-        - _Pytest_ as test tool
+**Frontend _Arturo's Fake Data Generator Frontend_**
+
+- _HTML_
+- _JS_
+- _CSS_
+
+**Backend**
+- _Python_ Server
+- _Poetry_ as package manager
+- _Pylint_ as static analyzer
+- _FastAPI_ as web framework
+- _Pytest_ as test tool
+
+**Tools**
+- E2E w Cypress
 
 ---
 
@@ -23,7 +29,7 @@
 Ensure to be positioned at `./`
 
 ```bash
-docker.compose -f docker-compose.dev.yml up
+docker-compose -f docker-compose.dev.yml up
 ```
 
 Now you have _Python server_ running on `PORT: 8000` and
@@ -48,6 +54,57 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ```bash
 poetry run pytest -v
+```
+
+---
+
+<br>
+
+### E2E Tests with Cypress
+
+Configuring _Cypress_ for `/client`
+
+```bash
+npm init -y
+npm install --save-dev cypress
+```
+
+Add scripts to `package.json`
+
+```json
+"scripts": {
+  "cypress:open": "cypress open",
+  "cypress:run": "cypress run"
+}
+```
+
+Initialize Cypress `npx cypress open`
+
+Ensure `cypress.config.js` looks like this:
+
+```javascript
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: "http://localhost:3000",
+    viewportWidth: 1280,
+    viewportHeight: 800,
+    video: false,
+    setupNodeEvents(on, config) {
+      // implement node event listeners here if needed
+    },
+  },
+});
+```
+
+---
+
+Run _Cypress_ E2E tests:
+
+```bash
+npm run cypress:open # test with GUI
+npm run cypress:run # headless tests
 ```
 
 ---

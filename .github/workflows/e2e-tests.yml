@@ -2,7 +2,13 @@ name: E2E Tests
 
 on:
   push:
+    branches: [ main ]
+    paths:
+      - 'server/**'
   pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
 
 jobs:
   e2e:

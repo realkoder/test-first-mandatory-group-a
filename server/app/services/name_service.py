@@ -1,10 +1,10 @@
 import json
 import random
 from pathlib import Path
-from app.repository.repository import _get_person
+from app.repository.repository import get_person
 
 async def get_random_name_gender():
-    person = _get_person()
+    person = get_person()
     return {
         "first_name": person["name"],
         "last_name": person["surname"],

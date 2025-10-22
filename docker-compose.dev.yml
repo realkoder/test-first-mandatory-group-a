@@ -32,7 +32,7 @@ services:
 
   mysql:
     image: mysql:8.1
-    container_name: mysql
+    container_name: test1-mandatory-mysql
     ports:
       - "3307:3306"
     environment:

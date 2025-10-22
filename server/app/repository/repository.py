@@ -2,7 +2,7 @@ import random
 import json
 from pathlib import Path
 
-def _get_person():
+def get_person():
     with open("app/assets/person-names.json", "r", encoding="utf-16") as f:
         data = json.load(f)
         NAMES_DATA = data["persons"]

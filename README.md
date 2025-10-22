@@ -19,6 +19,8 @@
 **Tools**
 
 - E2E w Cypress
+- Static testing w Radon, Bandit and SonarQube
+- 
 
 ---
 
@@ -153,6 +155,28 @@ maintainable code by automatically detecting code style issues and potential err
 
 _from https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis_
 
+_Radon_ is implemented to have a static overview of code complexity and maintainability
+
+To use Radon use these commands in the pyproject.toml folder:
+```
+poetry run radon cc . -a -s > reports/radon_complexity.txt
+```
+To show the -a (average complexity) and -s(complexity score) for each function and store them in the reports folder
+
+Run
+```
+poetry run radon mi . -s > reports/radon_maintainability.txt
+```
+for the maintainability score.
+
+_Bandit_ is implemented to catch security errors during code compilation.
+
+```
+poetry run bandit -r . -f json -o reports/bandit_report.json
+```
+saves the report to the reports folder.
+
+These should later be implemented in the CI/CD pipeline.
 ---
 
 ### SonarQube

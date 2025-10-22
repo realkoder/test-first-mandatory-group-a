@@ -2,15 +2,23 @@
 
 ## Tech-stack
 
-- **Frontend** - _Arturo's Fake Data Generator Frontend_
-    - _HTML_
-    - _JS_
-    - _CSS_
-- **Backend**
-    - _Python_ Server
-        - _Poetry_ as package manager
-        - _FastAPI_ as web framework
-        - _Pytest_ as test tool
+**Frontend _Arturo's Fake Data Generator Frontend_**
+
+- _HTML_
+- _JS_
+- _CSS_
+
+**Backend**
+
+- _Python_ Server
+- _Poetry_ as package manager
+- _Pylint_ as static analyzer
+- _FastAPI_ as web framework
+- _Pytest_ as test tool
+
+**Tools**
+
+- E2E w Cypress
 
 ---
 
@@ -23,7 +31,7 @@
 Ensure to be positioned at `./`
 
 ```bash
-docker.compose -f docker-compose.dev.yml up
+docker-compose -f docker-compose.dev.yml up
 ```
 
 Now you have _Python server_ running on `PORT: 8000` and
@@ -48,6 +56,61 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ```bash
 poetry run pytest -v
+```
+
+---
+
+<br>
+
+### E2E Tests with Cypress
+
+Configuring _Cypress_ for `/client`
+
+```bash
+npm init -y
+npm install --save-dev cypress
+```
+
+Add scripts to `package.json`
+
+```json
+"scripts": {
+"cypress:open": "cypress open",
+"cypress:run": "cypress run"
+}
+```
+
+Initialize Cypress `npx cypress open`
+
+Ensure `cypress.config.js` looks like this:
+
+```javascript
+const {defineConfig} = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: "http://localhost:3000",
+    viewportWidth: 1280,
+    viewportHeight: 800,
+    video: false,
+    setupNodeEvents(on, config) {
+      // implement node event listeners here if needed
+    },
+  },
+});
+```
+
+Run project locally in test mode to test _sqlite3_
+`PYTHON_ENV=test poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000`
+
+
+---
+
+Run _Cypress_ E2E tests:
+
+```bash
+npm run cypress:open # test with GUI
+npm run cypress:run # headless tests
 ```
 
 ---
@@ -91,6 +154,46 @@ maintainable code by automatically detecting code style issues and potential err
 _from https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis_
 
 ---
+
+### SonarQube
+
+[SonarQube](https://www.sonarsource.com/) a _static code analysis tool_ that automatically inspects code for bugs,
+vulnerabilities, code smells, and test coverage without running the program.
+
+[SonarQube can be run through the use of Docker](https://medium.com/@index23/start-sonarqube-server-and-run-analyses-locally-with-docker-4550eb7112a3)
+
+```bash
+cd munchora-server-relational-db
+docker-compose -f docker-compose-sonar-qube.yml up
+```
+
+Go to **SonarQube dashboard** on `http://localhost:9000` - default credentials are login: `admin` password: `admin`
+
+Create a **local project** with project key `test-first-mandatory`.
+
+For the **Analysis Method** choose **Locally** and add or generate a token.
+
+Be sure to be positioned in projects `./server` -
+then use following command to scan project with _SonnarScanner_ (add the `$(SONAR_TOKEN)`):
+
+```bash
+docker run \
+    --rm \
+    -v "$(pwd):/usr/src" \
+    --network="host" \
+    -e SONAR_HOST_URL="http://localhost:9000" \
+    -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=test-first-mandatory -Dsonar.sources=./ -Dsonar.test=test -Dsonar.javascript.lcov.reportPaths=test/coverage/lcov.info" \
+    -e SONAR_TOKEN="${SONAR_TOKEN}" \
+    sonarsource/sonar-scanner-cli
+```
+
+_Hopefully in SonarQube GUI you should end up seeing something like this_
+
+![Successfully sonar scan for sonarqube](assets/sonar-scan-sonar-qube-result.png)
+
+---
+
+<br>
 
 ### Configuration
 

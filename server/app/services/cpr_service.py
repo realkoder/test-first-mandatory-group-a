@@ -21,7 +21,7 @@ def generate_dob(epoch):
 
     return dob_date, dob_ddmmyy
 
-async def get_random_cpr_number():
+async def generate_cpr_name_gender_dob():
     person = get_person()
     
     # DOB and first 6 CPR digits
@@ -41,14 +41,68 @@ async def get_random_cpr_number():
     cpr = f"{dob[1]}-{four_digits}"
 
     return {
+        "cpr": cpr,
         "first_name": person["name"],
         "last_name": person["surname"],
         "gender": person["gender"],
-        "last_digit": last_digit,
-        "three_digits": three_digits,
-        "three_digits_str": three_digits_str,
-        "four_digits": four_digits,
         "dob": dob[0],
-        "dob_ddmmyy": dob[1],
-        "cpr": cpr,
     }
+
+async def generate_cpr():
+    person = get_person()
+
+    # DOB and first 6 CPR digits
+    dob = generate_dob(epoch)
+
+    # Last digit based on gender + 3x random nums
+    if person["gender"] == "female":
+        last_digit = random.choice([0,2,4,6,8])
+    else:
+        last_digit = random.choice([1,3,5,7,9])
+        
+    three_digits = random.randrange(0,999)
+    three_digits_str = f"{three_digits:03d}"
+
+    four_digits = f"{three_digits_str}{last_digit}"
+
+    cpr = f"{dob[1]}-{four_digits}"
+
+    return {
+        "cpr": cpr
+    }
+
+async def generate_name_gender_dob():
+    person = get_person()
+    dob = generate_dob(epoch)
+
+    return {
+        "first_name": person["name"],
+        "last_name": person["surname"],
+        "gender": person["gender"],
+        "dob": dob[0],
+    }
+
+async def generate_cpr_name_gender():
+    person = get_person()
+    dob = generate_dob(epoch)
+
+    # Last digit based on gender + 3x random nums
+    if person["gender"] == "female":
+        last_digit = random.choice([0,2,4,6,8])
+    else:
+        last_digit = random.choice([1,3,5,7,9])
+        
+    three_digits = random.randrange(0,999)
+    three_digits_str = f"{three_digits:03d}"
+
+    four_digits = f"{three_digits_str}{last_digit}"
+
+    cpr = f"{dob[1]}-{four_digits}"
+
+    return {
+        "cpr": cpr,
+        "first_name": person["name"],
+        "last_name": person["surname"],
+        "gender": person["gender"],
+    }
+

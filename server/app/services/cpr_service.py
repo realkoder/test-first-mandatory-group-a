@@ -38,6 +38,7 @@ async def get_random_cpr_number():
 
     four_digits = f"{three_digits_str}{last_digit}"
 
+    cpr = f"{dob[1]}-{four_digits}"
 
     return {
         "first_name": person["name"],
@@ -49,4 +50,5 @@ async def get_random_cpr_number():
         "four_digits": four_digits,
         "dob": dob[0],
         "dob_ddmmyy": dob[1],
+        "cpr": cpr,
     }

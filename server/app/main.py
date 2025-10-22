@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, status
 from app.db import init_db
 from app.models.postal_code import PostalCode
 from app.services.name_service import get_random_name_gender
+from app.services.cpr_service import get_random_cpr_number
 
 
 @asynccontextmanager
@@ -24,8 +25,13 @@ async def root():
 
 @app.get("/cpr", status_code=status.HTTP_200_OK)
 async def generate_cpr():
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
-
+    result = await get_random_cpr_number()
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No cpr data available"
+        )
+    return result
 
 @app.get("/name-gender", status_code=status.HTTP_200_OK)
 async def get_name_gender():

@@ -1,0 +1,39 @@
+app\db.py
+    F 17:0 init_db - B (9)
+    F 58:0 seed_addresses_sqlite - A (5)
+app\main.py
+    F 31:0 get_name_gender - A (2)
+    F 10:0 lifespan - A (1)
+    F 21:0 root - A (1)
+    F 26:0 generate_cpr - A (1)
+    F 42:0 get_name_gender_dob - A (1)
+    F 47:0 get_cpr_name_gender - A (1)
+    F 52:0 get_cpr_name_gender_dob - A (1)
+    F 57:0 get_address - A (1)
+    F 62:0 get_phone - A (1)
+    F 67:0 get_person - A (1)
+    F 72:0 get_multiple_persons - A (1)
+app\models\postal_code.py
+    C 4:0 PostalCode - A (2)
+    M 11:4 PostalCode.__str__ - A (1)
+app\schemas\postal_code.py
+    C 4:0 PostalCodeBase - A (1)
+    C 8:0 PostalCodeCreate - A (1)
+    C 11:0 PostalCode - A (1)
+    C 18:0 PostalCodeDBSchema - A (1)
+app\services\name_service.py
+    F 10:0 get_random_name_gender - A (1)
+tests\conftest.py
+    F 9:0 event_loop - A (1)
+    F 15:0 initialize_db - A (1)
+tests\requests\test_main.py
+    F 8:0 test_root - A (3)
+    F 13:0 test_name_gender_success - A (3)
+    F 25:0 test_name_gender_integration - A (3)
+tests\services\test_name_service.py
+    F 6:0 test_get_random_name_gender_single - A (2)
+    F 15:0 test_get_random_name_gender_multiple - A (2)
+    F 27:0 test_get_random_name_gender_empty - A (1)
+
+28 blocks (classes, functions, methods) analyzed.
+Average complexity: A (1.7857142857142858)

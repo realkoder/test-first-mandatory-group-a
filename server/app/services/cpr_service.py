@@ -1,13 +1,17 @@
 import json
 import random
 from pathlib import Path
+from datetime import datetime
+from app.repository.repository import _get_person
 
-with open("app/assets/person-names.json", "r", encoding="utf-16") as f:
-    data = json.load(f)
-    NAMES_DATA = data["persons"]
+
+# Kirsten Schwalbe's DOB.
+# EPOCH = datetime.datetime(1914, 3, 10)
+
+# def generate_dob(EPOCH):
 
 async def get_random_cpr_number():
-    person = random.choice(NAMES_DATA)
+    person = _get_person()
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":

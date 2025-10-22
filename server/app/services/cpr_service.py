@@ -15,9 +15,11 @@ def generate_dob(epoch):
     delta_in_days = delta.days
 
     rand_days = random.randint(0, delta_in_days)
-    dob = epoch + datetime.timedelta(days=rand_days)
 
-    return dob
+    dob_date = epoch + datetime.timedelta(days=rand_days)
+    dob_ddmmyy = dob_date.strftime("%d%m%y")
+
+    return dob_date, dob_ddmmyy
 
 async def get_random_cpr_number():
     person = get_person()
@@ -34,7 +36,7 @@ async def get_random_cpr_number():
     three_digits = random.randrange(0,999)
     three_digits_str = f"{three_digits:03d}"
 
-    four_digits = f"{three_digits:03d}{last_digit}"
+    four_digits = f"{three_digits_str}{last_digit}"
 
 
     return {
@@ -45,5 +47,6 @@ async def get_random_cpr_number():
         "three_digits": three_digits,
         "three_digits_str": three_digits_str,
         "four_digits": four_digits,
-        "dob": dob,
+        "dob": dob[0],
+        "dob_ddmmyy": dob[1],
     }

@@ -1,11 +1,15 @@
 import json
 import random
 from pathlib import Path
-from app.repository.repository import get_person
+
+with open("app/assets/person-names.json", "r", encoding="utf-16") as f:
+    data = json.load(f)
+    NAMES_DATA = data["persons"]
+
 
 
 async def get_random_name_gender():
-    person = get_person()
+    person = random.choice(NAMES_DATA)
     return {
         "first_name": person["name"],
         "last_name": person["surname"],

@@ -29,9 +29,9 @@ async def get_random_cpr_number():
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":
-        last_digit = random.choices([0,2,4,6,8])
+        last_digit = random.choice([0,2,4,6,8])
     else:
-        last_digit = random.choices([1,3,5,7,9])
+        last_digit = random.choice([1,3,5,7,9])
         
     three_digits = random.randrange(0,999)
     three_digits_str = f"{three_digits:03d}"

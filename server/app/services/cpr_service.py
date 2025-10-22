@@ -2,7 +2,7 @@ import json
 import random
 from pathlib import Path
 import datetime
-from app.repository.repository import _get_person
+from app.repository.repository import get_person
 
 
 # Kirsten Schwalbe's DOB.
@@ -19,7 +19,7 @@ def generate_dob(epoch):
     return today, epoch, delta, delta_in_days, rand_days
 
 async def get_random_cpr_number():
-    person = _get_person()
+    person = get_person()
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":

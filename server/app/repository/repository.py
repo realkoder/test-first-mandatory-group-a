@@ -9,6 +9,3 @@ def get_person():
 
     person = random.choice(NAMES_DATA)
     return person
-
-
-# TODO: Get random address too

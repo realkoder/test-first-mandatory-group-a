@@ -2,7 +2,7 @@ name: Run Tests, linter and static analysis on Server
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'server/**'
   pull_request:

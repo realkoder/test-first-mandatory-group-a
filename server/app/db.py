@@ -56,8 +56,6 @@ async def init_db(db_url: str = None, modules: dict = None):
 
 
 async def seed_addresses_sqlite():
-    import re # reqular expression
-
     sql_path = os.path.join(os.path.dirname(__file__), "assets", "addresses_sqlite.sql")
 
     if not os.path.exists(sql_path):
@@ -70,10 +68,6 @@ async def seed_addresses_sqlite():
     with open(sql_path, encoding="utf-8") as f:
         sql_script = f.read()
 
-    # Optional cleanup of MySQL-specific syntax
-    sql_script = sql_script.replace("AUTO_INCREMENT", "AUTOINCREMENT")
-    sql_script = re.sub(r"ENGINE=\w+\s*", "", sql_script)
-    sql_script = re.sub(r"CHARSET=\w+\s*", "", sql_script)
 
     for statement in sql_script.split(";"):
         stmt = statement.strip()

@@ -22,7 +22,7 @@ from tortoise.exceptions import ValidationError
     # ======================================
     # NUMBER VALIDATIONS
     # ======================================
-    ("number", lambda v: v.isalnum() and 1 <= len(v) <= 3),
+    ("number", lambda v: v.isalnum() and 1 <= len(v) <= 4),
 
     # ======================================
     # NUMBER VALIDATIONS

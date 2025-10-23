@@ -2,7 +2,7 @@ name: Run Tests, linter and static analysis on Server
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
     paths:
       - 'server/**'
   pull_request:
@@ -79,7 +79,7 @@ jobs:
         continue-on-error: true
       
       - name: Upload Static Analysis Reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: static-analysis-reports
           path: server/reports/

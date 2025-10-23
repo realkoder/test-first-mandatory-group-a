@@ -1,4 +1,4 @@
-name: Run Tests and Lint
+name: Run Tests, linter and static analysis on Server
 
 on:
   push:
@@ -42,6 +42,56 @@ jobs:
         working-directory: ./server
         run: |
           poetry run pylint app --exit-zero
+
+      - name: Create reports directory
+        working-directory: ./server
+        run: mkdir -p reports
+      
+      - name: Run Radon Complexity Analysis
+        working-directory: ./server
+        run: |
+          echo "=== Radon Complexity Analysis ==="
+          poetry run radon cc . -a -s | tee reports/radon_complexity.txt
+          echo ""
+          echo "Radon Complexity analysis complete"
+      
+      - name: Run Radon Maintainability Analysis
+        working-directory: ./server
+        run: |
+          echo "=== Radon Maintainability Index ==="
+          poetry run radon mi . -s | tee reports/radon_maintainability.txt
+          echo ""
+          echo "Radon Maintainability analysis complete"
+      
+      - name: Run Bandit Security Analysis
+        working-directory: ./server
+        run: |
+          echo "=== Bandit Security Analysis ==="
+          poetry run bandit -r . -f txt -o reports/bandit_report.txt || true
+          poetry run bandit -r . -f json -o reports/bandit_report.json || true
+          cat reports/bandit_report.txt || echo "No security issues found"
+          echo ""
+          echo "Bandit Security analysis complete"
+        continue-on-error: true
+      
+      - name: Upload Static Analysis Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: static-analysis-reports
+          path: server/reports/
+          retention-days: 30
+      
+      - name: Check for Critical Security Issues
+        working-directory: ./server
+        run: |
+          if grep -q "Severity: High" reports/bandit_report.txt 2>/dev/null; then
+            echo "Security issues with HIGH severity found."
+            echo "Please review the Bandit report in the reports directory."
+            exit 1
+          else
+            echo "No HIGH severity security issues found"
+          fi
+        continue-on-error: true
 
       - name: Run tests with pytest
         working-directory: ./server

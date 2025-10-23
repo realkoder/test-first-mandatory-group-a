@@ -177,6 +177,7 @@ poetry run bandit -r . -f json -o reports/bandit_report.json
 saves the report to the reports folder.
 
 These should later be implemented in the CI/CD pipeline.
+
 ---
 
 ### SonarQube

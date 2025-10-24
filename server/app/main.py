@@ -112,7 +112,7 @@ async def get_person():
 
 
 
-@app.get("/person&n={number_of_fake_persons}", status_code=status.HTTP_200_OK)
+@app.get("/persons/{number_of_fake_persons}", status_code=status.HTTP_200_OK)
 async def get_multiple_persons(number_of_fake_persons: int):
     try:
         result = await generate_persons(number_of_fake_persons)

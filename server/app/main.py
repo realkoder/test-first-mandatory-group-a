@@ -6,6 +6,7 @@ from app.models.postal_code import PostalCode
 from app.services.name_service import get_random_name_gender
 from app.services.cpr_service import generate_cpr, generate_name_gender_dob, generate_cpr_name_gender, generate_cpr_name_gender_dob
 from app.services.address_service import get_random_address
+from app.services.phone_service import generate_phone_number
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -90,7 +91,13 @@ async def get_address():
 
 @app.get("/phone", status_code=status.HTTP_200_OK)
 async def get_phone():
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
+    result = generate_phone_number()
+    if not result:
+         raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No phone number data available"
+        )
+    return {"phone_number": result}
 
 
 @app.get("/person", status_code=status.HTTP_200_OK)

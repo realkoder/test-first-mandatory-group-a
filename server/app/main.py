@@ -8,6 +8,7 @@ from app.services.cpr_service import generate_cpr, generate_name_gender_dob, gen
 from app.services.address_service import get_random_address
 from app.services.phone_service import generate_phone_number
 from app.services.person_service import generate_person
+from app.services.persons_service import generate_persons
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -113,4 +114,12 @@ async def get_person():
 
 @app.get("/person&n={number_of_fake_persons}", status_code=status.HTTP_200_OK)
 async def get_multiple_persons(number_of_fake_persons: int):
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
+    try:
+        result = await generate_persons(number_of_fake_persons)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="no persons data available")
+    if not result:
+        raise HTTPException(status_code=500, detail="no persons data available")
+    return result

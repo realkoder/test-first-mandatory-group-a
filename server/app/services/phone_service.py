@@ -29,7 +29,7 @@ VALID_PREFIXES = [
 ]
 
 
-def generate_phone_number():
+async def generate_phone_number():
     prefix = random.choice(VALID_PREFIXES)
     remaining_digits = 8 - len(prefix)
     suffix = ''.join(str(random.randint(0, 9)) for _ in range(remaining_digits))

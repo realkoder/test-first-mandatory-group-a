@@ -16,61 +16,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.13'
+      - name: Set up Docker Compose
+        uses: docker/setup-buildx-action@v2
 
-      - name: Install system dependencies
+      - name: Start services with Docker Compose
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential curl
+          docker-compose -f server/docker-compose.dev.yml up -d
+          # wait for DB & API to be ready
+          sleep 15
 
-      - name: Install Poetry
+      - name: Run Postman collection
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Configure Poetry
-        run: |
-          poetry config virtualenvs.create false
-
-      - name: Change to server directory and install dependencies
-        working-directory: ./server
-        run: |
-          poetry install --no-root
-          
-      - name: Start FastAPI
-        working-directory: ./server
-        run: |
-          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
-          sleep 5  # wait a few seconds for server to be ready
-
-      # Step 2: Set up Node (required for Newman)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      # Step 3: Install Newman
-      - name: Install Newman
-        run: npm install -g newman
-
-      # Step 4: Run Postman collection
-      - name: Run API tests
-        run: |
+          npm install -g newman
           newman run server/tests/postman/postman_collection.json \
-          -e server/tests/postman/postman_environment.json \
-          --reporters cli,junit \
-          --reporter-junit-export server/tests/postman/results.xml
+            -e server/tests/postman/postman_environment.json \
+            --reporters cli,junit \
+            --reporter-junit-export server/tests/postman/results.xml
 
-      # Step 5: Optionally upload JUnit report for GitHub Actions
-#      - name: Upload test results
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: newman-results
-#          path: results.xml
+      - name: Tear down Docker Compose
+        run: docker-compose -f server/docker-compose.dev.yml down

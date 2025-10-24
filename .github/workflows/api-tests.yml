@@ -43,6 +43,12 @@ jobs:
         working-directory: ./server
         run: |
           poetry install --no-root
+          
+      - name: Start FastAPI
+        working-directory: ./server
+        run: |
+          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 5  # wait a few seconds for server to be ready
 
       # Step 2: Set up Node (required for Newman)
       - name: Setup Node.js

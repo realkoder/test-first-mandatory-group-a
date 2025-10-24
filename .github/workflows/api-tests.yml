@@ -24,7 +24,7 @@ jobs:
 
       - name: Start services with Docker Compose
         run: |
-          docker-compose -f server/docker-compose.dev.yml up -d
+          docker-compose -f docker-compose.dev.yml up -d
           # wait for DB & API to be ready
           sleep 15
 

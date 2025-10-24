@@ -1,0 +1,45 @@
+name: API Tests
+
+on:
+  push:
+    branches: [ main, develop, postman-API-test-pipeline]
+    paths:
+      - 'server/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+
+jobs:
+  run-postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node (required for Newman)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 3: Install Newman
+      - name: Install Newman
+        run: npm install -g newman
+
+      # Step 4: Run Postman collection
+      - name: Run API tests
+        run: |
+          newman run server/tests/postman/postman_collection.json \
+          -e server/tests/postman/postman_environment.json \
+          --reporters cli,junit \
+          --reporter-junit-export server/tests/postman/results.xml
+
+      # Step 5: Optionally upload JUnit report for GitHub Actions
+#      - name: Upload test results
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: newman-results
+#          path: results.xml

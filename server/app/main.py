@@ -123,3 +123,4 @@ async def get_multiple_persons(number_of_fake_persons: int):
     if not result:
         raise HTTPException(status_code=500, detail="no persons data available")
     return result
+

@@ -1,0 +1,633 @@
+{
+	"info": {
+		"_postman_id": "aa58fc4d-4b0e-4341-a895-2eadafa1e8a7",
+		"name": "fake-person-data-generator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29402235"
+	},
+	"item": [
+		{
+			"name": "GET cpr",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"pm.test(\"Response contains 'cpr'\", function () {",
+							"    pm.expect(json).to.have.property(\"cpr\");",
+							"});",
+							"",
+							"pm.test(\"CPR looks like a CPR number\", function () {",
+							"    pm.expect(json.cpr).to.match(/^\\d{6}-\\d{4}$/);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cpr",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cpr"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET name-gender",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response contains 'first_name', 'last_name' and 'gender' fields\", function () {",
+							"    pm.expect(json).to.have.property(\"first_name\");",
+							"        pm.expect(json).to.have.property(\"last_name\");",
+							"    pm.expect(json).to.have.property(\"gender\");",
+							"});",
+							"",
+							"pm.test(\"Gender is 'male' or 'female'\", function () {",
+							"    pm.expect([\"male\", \"female\"]).to.include(json.gender);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/name-gender",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"name-gender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET name-gender-dob",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response contains 'first_name', 'last_name', 'dob' and 'gender' fields\", function () {",
+							"    pm.expect(json).to.have.property(\"first_name\");",
+							"    pm.expect(json).to.have.property(\"last_name\");",
+							"    pm.expect(json).to.have.property(\"gender\");",
+							"    pm.expect(json).to.have.property(\"dob\");",
+							"});",
+							"",
+							"pm.test(\"Gender is 'male' or 'female'\", function () {",
+							"    pm.expect([\"male\", \"female\"]).to.include(json.gender);",
+							"});",
+							"",
+							"pm.test(\"DOB looks like a valid date\", function () {",
+							"    pm.expect(json.dob).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/name-gender-dob",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"name-gender-dob"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET cpr-name-gender",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response contains 'first_name', 'last_name', 'cpr' and 'gender' fields\", function () {",
+							"    pm.expect(json).to.have.property(\"first_name\");",
+							"    pm.expect(json).to.have.property(\"last_name\");",
+							"    pm.expect(json).to.have.property(\"gender\");",
+							"    pm.expect(json).to.have.property(\"cpr\");",
+							"});",
+							"",
+							"pm.test(\"Gender is 'male' or 'female'\", function () {",
+							"    pm.expect([\"male\", \"female\"]).to.include(json.gender);",
+							"});",
+							"",
+							"",
+							"pm.test(\"CPR looks like a CPR number\", function () {",
+							"    pm.expect(json.cpr).to.match(/^\\d{6}-\\d{4}$/);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cpr-name-gender",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cpr-name-gender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET cpr-name-gender-dob",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response contains 'first_name', 'last_name', 'cpr', 'dob' and 'gender' fields\", function () {",
+							"    pm.expect(json).to.have.property(\"first_name\");",
+							"    pm.expect(json).to.have.property(\"last_name\");",
+							"    pm.expect(json).to.have.property(\"gender\");",
+							"    pm.expect(json).to.have.property(\"cpr\");",
+							"    pm.expect(json).to.have.property(\"dob\");",
+							"});",
+							"",
+							"pm.test(\"Gender is 'male' or 'female'\", function () {",
+							"    pm.expect([\"male\", \"female\"]).to.include(json.gender);",
+							"});",
+							"",
+							"",
+							"pm.test(\"CPR looks like a CPR number\", function () {",
+							"    pm.expect(json.cpr).to.match(/^\\d{6}-\\d{4}$/);",
+							"});",
+							"",
+							"pm.test(\"DOB looks like a valid date\", function () {",
+							"    pm.expect(json.dob).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/cpr-name-gender-dob",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"cpr-name-gender-dob"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Contains required address fields\", function () {",
+							"    pm.expect(json).to.have.property(\"street\");",
+							"    pm.expect(json).to.have.property(\"number\");",
+							"    pm.expect(json).to.have.property(\"floor\");",
+							"    pm.expect(json).to.have.property(\"door\");",
+							"    pm.expect(json).to.have.property(\"postal_code\");",
+							"    pm.expect(json).to.have.property(\"town_name\");",
+							"    pm.expect(json).to.have.property(\"full_address\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Postal code looks valid (4 digits)\", function () {",
+							"    pm.expect(json.postal_code).to.match(/^\\d{4}$/);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Floor should be numeric or string\", function () {",
+							"    pm.expect(json.floor).to.be.a(\"string\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Full address includes key parts\", function () {",
+							"    pm.expect(json.full_address).to.include(json.street);",
+							"    pm.expect(json.full_address).to.include(json.postal_code);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/address",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET phone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"pm.test(\"Response contains 'phone_number'\", function () {",
+							"    pm.expect(json).to.have.property(\"phone_number\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Phone is 8 numeric digits\", function () {",
+							"    pm.expect(json.phone_number).to.match(/^\\d{8}$/);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/phone",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"phone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET person",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"        pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Response contains all fields\", function () {",
+							"    pm.expect(json).to.have.property(\"first_name\");",
+							"    pm.expect(json).to.have.property(\"last_name\");",
+							"    pm.expect(json).to.have.property(\"gender\");",
+							"    pm.expect(json).to.have.property(\"cpr\");",
+							"    pm.expect(json).to.have.property(\"dob\");",
+							"    pm.expect(json).to.have.property(\"address\");",
+							"    pm.expect(json).to.have.property(\"phone_number\");",
+							"});",
+							"",
+							"pm.test(\"Gender is 'male' or 'female'\", function () {",
+							"    pm.expect([\"male\", \"female\"]).to.include(json.gender);",
+							"});",
+							"",
+							"",
+							"pm.test(\"CPR looks like a CPR number\", function () {",
+							"    pm.expect(json.cpr).to.match(/^\\d{6}-\\d{4}$/);",
+							"});",
+							"",
+							"pm.test(\"DOB looks like a valid date\", function () {",
+							"    pm.expect(json.dob).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"});",
+							"",
+							"pm.test(\"Phone is 8 numeric digits\", function () {",
+							"    pm.expect(json.phone_number).to.match(/^\\d{8}$/);",
+							"});",
+							"",
+							"const address = json.address;",
+							"",
+							"pm.test(\"Contains required address fields\", function () {",
+							"    pm.expect(address).to.have.property(\"street\");",
+							"    pm.expect(address).to.have.property(\"number\");",
+							"    pm.expect(address).to.have.property(\"floor\");",
+							"    pm.expect(address).to.have.property(\"door\");",
+							"    pm.expect(address).to.have.property(\"postal_code\");",
+							"    pm.expect(address).to.have.property(\"town_name\");",
+							"    pm.expect(address).to.have.property(\"full_address\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Postal code looks valid (4 digits)\", function () {",
+							"    pm.expect(address.postal_code).to.match(/^\\d{4}$/);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Floor should be numeric or string\", function () {",
+							"    pm.expect(address.floor).to.be.a(\"string\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Full address includes key parts\", function () {",
+							"    pm.expect(address.full_address).to.include(address.street);",
+							"    pm.expect(address.full_address).to.include(address.postal_code);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/person",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET 2 persons",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is valid JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"pm.test(\"Response is an array\", function () {",
+							"    pm.expect(json).to.be.an(\"array\");",
+							"});",
+							"pm.test(\"Array length matches requested number\", function () {",
+							"    // Extract the last segment from the request URL path",
+							"    let n;",
+							"    if (typeof pm.request.url.getPath === \"function\") {",
+							"        const pathSegments = pm.request.url.getPath().split(\"/\").filter(Boolean);",
+							"        n = parseInt(pathSegments[pathSegments.length - 1], 10);",
+							"    } else {",
+							"        // Fallback for environments where getPath is not available",
+							"        const urlStr = pm.request.url.toString();",
+							"        const match = urlStr.match(/\\/persons\\/(\\d+)/);",
+							"        n = match ? parseInt(match[1], 10) : undefined;",
+							"    }",
+							"    pm.expect(json).to.have.lengthOf(n);",
+							"});",
+							"pm.test(\"Path number is between 2 and 100\", function () {",
+							"    let n;",
+							"    if (typeof pm.request.url.getPath === \"function\") {",
+							"        const pathSegments = pm.request.url.getPath().split(\"/\").filter(Boolean);",
+							"        n = parseInt(pathSegments[pathSegments.length - 1], 10);",
+							"    } else if (pm.request.url.path && Array.isArray(pm.request.url.path)) {",
+							"        const pathSegments = pm.request.url.path;",
+							"        n = parseInt(pathSegments[pathSegments.length - 1], 10);",
+							"    } else {",
+							"        const urlStr = pm.request.url.toString();",
+							"        const match = urlStr.match(/\\/persons\\/(\\d+)/);",
+							"        n = match ? parseInt(match[1], 10) : undefined;",
+							"    }",
+							"    pm.expect(n, \"Path number must be a valid integer\").to.be.a('number').and.to.not.be.NaN;",
+							"    pm.expect(n, \"Path number must be at least 2\").to.be.at.least(2);",
+							"    pm.expect(n, \"Path number must be at most 100\").to.be.at.most(100);",
+							"});",
+							"pm.test(\"Each person has all required fields\", function () {",
+							"    json.forEach(person => {",
+							"        pm.expect(person).to.have.property(\"first_name\");",
+							"        pm.expect(person).to.have.property(\"last_name\");",
+							"        pm.expect(person).to.have.property(\"gender\");",
+							"        pm.expect(person).to.have.property(\"cpr\");",
+							"        pm.expect(person).to.have.property(\"dob\");",
+							"        pm.expect(person).to.have.property(\"address\");",
+							"        pm.expect(person).to.have.property(\"phone_number\");",
+							"    });",
+							"});",
+							"pm.test(\"Each CPR is valid\", function () {",
+							"    json.forEach(person => {",
+							"        pm.expect(person.cpr).to.match(/^\\d{6}-\\d{4}$/);",
+							"    });",
+							"});",
+							"pm.test(\"Each DOB is valid\", function () {",
+							"    json.forEach(person => {",
+							"        pm.expect(person.dob).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"    });",
+							"});",
+							"pm.test(\"Each phone is 8 digits\", function () {",
+							"    json.forEach(person => {",
+							"        pm.expect(person.phone_number).to.match(/^\\d{8}$/);",
+							"    });",
+							"});",
+							"",
+							"pm.test(\"Each address is valid\", function () {",
+							"    json.forEach(person => {",
+							"        const address = person.address;",
+							"        pm.expect(address).to.have.property(\"street\");",
+							"        pm.expect(address).to.have.property(\"number\");",
+							"        pm.expect(address).to.have.property(\"floor\");",
+							"        pm.expect(address).to.have.property(\"door\");",
+							"        pm.expect(address).to.have.property(\"postal_code\");",
+							"        pm.expect(address).to.have.property(\"town_name\");",
+							"        pm.expect(address).to.have.property(\"full_address\");",
+							"        pm.expect(address.postal_code).to.match(/^\\d{4}$/);",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/persons/2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"persons",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET 101 persons",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Response contains correct error message\", function () {",
+							"    var json = pm.response.json();",
+							"    pm.expect(json.detail).to.eql(\"Count must be between 2 and 100\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/persons/101",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"persons",
+						"101"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

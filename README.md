@@ -234,3 +234,21 @@ poetry run pylint --generate-rcfile > .pylintrc
 # 3. Run _Pylint_ via _Poetry_
 poetry run pylint app
 ```
+
+<br>
+
+### API test
+
+To run api tests locally:
+
+Install newman (postman CLI)
+
+```bash
+npm install -g newman
+```
+
+run the collection (collection and env located in /server/tests/postman)
+
+```bash
+newman run postman_collection.json -e postman_environment.json
+```

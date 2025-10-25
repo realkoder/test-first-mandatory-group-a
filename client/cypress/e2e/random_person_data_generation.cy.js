@@ -29,6 +29,7 @@ function generatePersonCard({numberOfPersons = 1, partialOption = null, visibleF
   // ASSERT
   cy.get('.personCard', {timeout: 10000}).should('exist');
 
+  // ASSERT correct amount of persons generated
   const personCards = cy.get('.personCard').should('have.length', numberOfPersons);
 
   personCards.each((card) => {

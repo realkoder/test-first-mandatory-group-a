@@ -8,9 +8,8 @@
 - _JS_
 - _CSS_
 
-**Backend**
+**Backend** _Python Server_
 
-- _Python_ Server
 - _Poetry_ as package manager
 - _Pylint_ as static analyzer
 - _FastAPI_ as web framework
@@ -20,7 +19,7 @@
 
 - E2E w Cypress
 - Static testing w Radon, Bandit and SonarQube
-- 
+-
 
 ---
 
@@ -36,8 +35,8 @@ Ensure to be positioned at `./`
 docker-compose -f docker-compose.dev.yml up
 ```
 
-Now you have _Python server_ running on `PORT: 8000` and
-frontend on `PORT: 3000` served with _Python’s built-in HTTP server_.
+Now you have _Python server_ running on `PORT: 8000` and 
+frontend on `PORT: 3000` served with _node based http server_.
 
 ---
 
@@ -158,15 +157,19 @@ _from https://en.wikipedia.org/wiki/List_of_tools_for_static_code_analysis_
 _Radon_ is implemented to have a static overview of code complexity and maintainability
 
 To use Radon use these commands in the pyproject.toml folder:
+
 ```
 poetry run radon cc . -a -s > reports/radon_complexity.txt
 ```
+
 To show the -a (average complexity) and -s(complexity score) for each function and store them in the reports folder
 
 Run
+
 ```
 poetry run radon mi . -s > reports/radon_maintainability.txt
 ```
+
 for the maintainability score.
 
 _Bandit_ is implemented to catch security errors during code compilation.
@@ -174,6 +177,7 @@ _Bandit_ is implemented to catch security errors during code compilation.
 ```
 poetry run bandit -r . -f json -o reports/bandit_report.json
 ```
+
 saves the report to the reports folder.
 
 These should later be implemented in the CI/CD pipeline.

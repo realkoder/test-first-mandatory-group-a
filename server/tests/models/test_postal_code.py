@@ -19,7 +19,7 @@ from tortoise.exceptions import ValidationError
     # ARRANGE
     'postal_code, should_be_valid, expected_error',
     [
-        # Invalid postal_code partition 0 - 4: lower boundary
+        # Invalid postal_code partition 0 - 4
         ('', False, 'postal code must contain only numbers'),
         ('1', False, 'postal code must be exactly 4 digits'),  # +1 char
         ('10', False, 'postal code must be exactly 4 digits'),  # equivalence partition
@@ -64,14 +64,14 @@ async def test_postal_code_for_postal_code_creation(postal_code, should_be_valid
         assert created_postal_code.postal_code == postal_code
 
 
-# # # ======================================
-# # # TOWN_NAME VALIDATIONS
-# # # ======================================
+# ======================================
+# TOWN_NAME VALIDATIONS
+# ======================================
 @pytest.mark.parametrize(
     # ARRANGE
     'town_name, should_be_valid, expected_error',
     [
-        # Invalid town_name partition 0 - 3: lower boundary
+        # Invalid town_name partition 0 - 3
         ('', False, 'town name cannot be empty'),  # invalid lower
         ('A', False, 'town name must be between 3 - 25 chars'),  # +1 char
         ('Aa', False, 'town name must be between 3 - 25 chars'),  # -1 char from valid partition/boundary

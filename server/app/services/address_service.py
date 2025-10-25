@@ -45,12 +45,6 @@ def _get_random_floor():
 
 
 def _get_random_door():
-    """
-    Return one of:
-    - 'th', 'mf', or 'tv'
-    - A number from 1–50
-    - A lowercase letter optionally followed by '-' and 1–3 digits (e.g., 'c3', 'd-14')
-    """
     choice = random.choice(['th', 'mf', 'tv', 'number', 'complex'])
     if choice == 'number':
         return str(random.randint(1, 50))
@@ -67,7 +61,6 @@ def _get_random_door():
 
 
 async def _get_random_postal_code() -> PostalCode:
-    """Get a random postal code from database"""
     count = await PostalCode.all().count()
     if count == 0:
         raise ValueError("No postal codes available in database")

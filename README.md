@@ -55,8 +55,16 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 ### Testing with Pytest
 
+Run all tests verbose
+
 ```bash
 poetry run pytest -v
+```
+
+White box testing with pytest - gets statements, missing paths, branches, code coverage and missing lines
+
+```bash
+poetry run pytest --cov=app --cov-branch --cov-report=term-missing:skip-covered
 ```
 
 ---

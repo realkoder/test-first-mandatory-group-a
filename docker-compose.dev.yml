@@ -17,18 +17,20 @@ services:
       - ./server/app:/app/app
       - ./server/.env:/app/.env:ro
       - ./server/app/assets:/app/assets:ro
+      - ./server/tests:/app/tests
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - mysql
 
   data-generator-client:
-    image: python:3.13-slim
+    image: node:22
+    container_name: test1-mandatory-data-generator-client
     working_dir: /client
     volumes:
       - ./client:/client
     ports:
       - "3000:3000"
-    command: python3 -m http.server 3000
+    command: npx live-server --host=0.0.0.0 --port=3000 --watch=./
 
   mysql:
     image: mysql:8.1

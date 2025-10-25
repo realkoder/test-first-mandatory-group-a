@@ -1,10 +1,16 @@
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Query
 
 from app.db import init_db
 from app.models.postal_code import PostalCode
 from app.services.name_service import get_random_name_gender
-from app.services.cpr_service import generate_cpr, generate_name_gender_dob, generate_cpr_name_gender, generate_cpr_name_gender_dob
+from app.services.cpr_service import generate_cpr, generate_name_gender_dob, generate_cpr_name_gender, \
+    generate_cpr_name_gender_dob
+from app.services.address_service import get_random_address
+from app.services.phone_service import generate_phone_number
+from app.services.person_service import generate_person
+from app.services.persons_service import generate_persons
 
 
 @asynccontextmanager
@@ -16,6 +22,15 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+# CORS setup
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -32,6 +47,7 @@ async def get_random_cpr():
             detail="No cpr data available"
         )
     return result
+
 
 @app.get("/name-gender", status_code=status.HTTP_200_OK)
 async def get_name_gender():
@@ -66,7 +82,6 @@ async def get_cpr_name_gender():
     return result
 
 
-
 @app.get("/cpr-name-gender-dob", status_code=status.HTTP_200_OK)
 async def get_cpr_name_gender_dob():
     result = await generate_cpr_name_gender_dob()
@@ -77,21 +92,45 @@ async def get_cpr_name_gender_dob():
         )
     return result
 
+
 @app.get("/address", status_code=status.HTTP_200_OK)
 async def get_address():
-    return await PostalCode.all()
+    result = await get_random_address()
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No address data available"
+        )
+    return {"address": result}
 
 
 @app.get("/phone", status_code=status.HTTP_200_OK)
 async def get_phone():
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
+    result = await generate_phone_number()
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No phone number data available"
+        )
+    return {"phone_number": result}
 
 
 @app.get("/person", status_code=status.HTTP_200_OK)
 async def get_person():
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
+    result = await generate_person()
+    if not result:
+        raise HTTPException(status_code=500, detail="no person data available")
+    return result
 
 
-@app.get("/person&n={number_of_fake_persons}", status_code=status.HTTP_200_OK)
-async def get_multiple_persons(number_of_fake_persons: int):
-    raise HTTPException(status_code=500, detail="IMPLEMENT ME")
+@app.get("/persons", status_code=status.HTTP_200_OK)
+async def get_multiple_persons(n: int = Query(..., alias="n", description="Number of fake persons to generate")):
+    try:
+        result = await generate_persons(n)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="no persons data available")
+    if not result:
+        raise HTTPException(status_code=500, detail="no persons data available")
+    return result

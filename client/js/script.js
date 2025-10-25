@@ -9,7 +9,7 @@ document.querySelector('#frmGenerate').addEventListener('submit', (e) => {
         endpoint += 'person'
         const numPersons = parseInt(e.target.txtNumberPersons.value);
         if (numPersons > 1) {
-            endpoint += '?n=' + numPersons;
+            endpoint += 's?n=' + numPersons;
         }
     } else {
         endpoint += e.target.cmbPartialOptions.value;
@@ -36,20 +36,22 @@ const handlePersonData = (data) => {
         data = [data];
     }
 
+    console.log("DATA", data);
+
     data.forEach(item => {
         const personCard = document.importNode(document.getElementById('personTemplate').content, true);
-        if (item.CPR !== undefined) {
+        if (item.cpr !== undefined) {
             const cprValue = personCard.querySelector('.cprValue');
-            cprValue.innerText = item.CPR;
+            cprValue.innerText = item.cpr;
             cprValue.classList.remove('hidden');
             personCard.querySelector('.cpr').classList.remove('hidden');
         }
-        if (item.firstName !== undefined) {
+        if (item.first_name !== undefined) {
             const firstNameValue = personCard.querySelector('.firstNameValue');
-            firstNameValue.innerText = item.firstName;
+            firstNameValue.innerText = item.first_name;
             firstNameValue.classList.remove('hidden');
             const lastNameValue = personCard.querySelector('.lastNameValue');
-            lastNameValue.innerText = item.lastName;
+            lastNameValue.innerText = item.last_name;
             lastNameValue.classList.remove('hidden');
             personCard.querySelector('.firstName').classList.remove('hidden');
             personCard.querySelector('.lastName').classList.remove('hidden');
@@ -60,9 +62,9 @@ const handlePersonData = (data) => {
             genderValue.classList.remove('hidden');
             personCard.querySelector('.gender').classList.remove('hidden');
         }        
-        if (item.birthDate !== undefined) {
+        if (item.dob !== undefined) {
             const dobValue = personCard.querySelector('.dobValue');
-            dobValue.innerText = item.birthDate;
+            dobValue.innerText = item.dob;
             dobValue.classList.remove('hidden');
             personCard.querySelector('.dob').classList.remove('hidden');
         }
@@ -75,9 +77,9 @@ const handlePersonData = (data) => {
             townValue.classList.remove('hidden');
             personCard.querySelector('.address').classList.remove('hidden');
         }
-        if (item.phoneNumber !== undefined) {
+        if (item.phone_number !== undefined) {
             const phoneNumberValue = personCard.querySelector('.phoneNumberValue');
-            phoneNumberValue.innerText = item.phoneNumber;
+            phoneNumberValue.innerText = item.phone_number;
             phoneNumberValue.classList.remove('hidden');
             personCard.querySelector('.phoneNumber').classList.remove('hidden');
         }

@@ -17,6 +17,7 @@ services:
       - ./server/app:/app/app
       - ./server/.env:/app/.env:ro
       - ./server/app/assets:/app/assets:ro
+      - ./server/tests:/app/tests
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     depends_on:
       - mysql

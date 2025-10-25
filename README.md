@@ -220,6 +220,10 @@ _Hopefully in SonarQube GUI you should end up seeing something like this_
 
 ![Successfully sonar scan for sonarqube](assets/sonar-scan-sonar-qube-result.png)
 
+_With coverage_
+
+![Sonarqube with coverge](assets/sonarqube-with-coverage.png)
+
 ---
 
 <br>

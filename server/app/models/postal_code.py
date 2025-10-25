@@ -6,8 +6,6 @@ from typing import Any
 
 class PostalCodeValidator(Validator):
     def __call__(self, value: Any):
-        if not isinstance(value, str):
-            raise ValueError('postal code must be a string')
         if not value.isdigit():
             raise ValueError('postal code must contain only numbers')
         if len(value) != 4:
@@ -16,8 +14,6 @@ class PostalCodeValidator(Validator):
 
 class TownNameValidator(Validator):
     def __call__(self, value: Any):
-        if not isinstance(value, str):
-            raise ValueError('town name must be a string')
         if not value.strip():
             raise ValueError('town name cannot be empty')
         if not all(char.isalpha() or char.isspace() or char in "-'." for char in value):
@@ -35,6 +31,3 @@ class PostalCode(Model):
 
     class Meta:
         table = 'postal_code'
-
-    def __str__(self):
-        return f'{self.postal_code} - {self.town_name}'

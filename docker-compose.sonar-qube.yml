@@ -6,15 +6,21 @@
 # docker-compose down:  docker-compose -f docker-compose-sonar-qube.yml down --rmi all --remove-orphans
 #                       // Deletes all images - JUST MAKE SURE VOLUMES WON'T BE DELETED
 #
-# Following command is used to scan a given project with SonarScanner
-#  docker run \
-#  --rm \
-#  -v "$(pwd):/usr/src" \
-#  --network="host" \
-#  -e SONAR_HOST_URL="http://localhost:9000" \
-#  -e SONAR_SCANNER_OPTS="-Dsonar.projectKey=test-first-mandatory -Dsonar.sources=./ -Dsonar.test=test -Dsonar.javascript.lcov.reportPaths=test/coverage/lcov.info" \
-#  -e SONAR_TOKEN="${SONAR_TOKEN}" \
-#  sonarsource/sonar-scanner-cli
+# Following command is used to scan a given project with SonarScanner, but only for one project so place yourself in ./server
+#docker run \
+#--rm \
+#-v "$(pwd):/usr/src" \
+#--network="host" \
+#-e SONAR_HOST_URL="http://localhost:9000" \
+#-e SONAR_SCANNER_OPTS="\
+#-Dsonar.projectKey=test-first-mandatory \
+#-Dsonar.sources=app \
+#-Dsonar.python.coverage.reportPaths=coverage.xml \
+#-Dsonar.python.version=3.11 \
+#-Dsonar.scm.disabled=true" \
+#-e SONAR_TOKEN="${SONAR_TOKEN}" \
+#sonarsource/sonar-scanner-cli
+
 
 services:
   sonarqube:

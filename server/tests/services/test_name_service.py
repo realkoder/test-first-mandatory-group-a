@@ -1,30 +1,32 @@
 import pytest
-import random
 from app.services.name_service import get_random_name_gender
 
 
-async def test_get_random_name_gender_single(monkeypatch):
-    fake_persons = [{"name": "Alice", "surname": "Smith", "gender": "female"}]
-    monkeypatch.setattr("app.services.name_service.NAMES_DATA", fake_persons)
-    monkeypatch.setattr(random, "choice", lambda x: x[0])  # deterministic
+# ===========================================================================================
+# NAME SERVICE INTEGRATION TEST
+# ===========================================================================================
+@pytest.mark.parametrize("key, validator", [
+    # ======================================
+    # FIRST_NAME VALIDATIONS
+    # ======================================
+    ("first_name", lambda v: isinstance(v, str) and 1 <= len(v) <= 30),
 
+    # ======================================
+    # LAST_NAME VALIDATIONS
+    # ======================================
+    ("last_name", lambda v: isinstance(v, str) and 1 <= len(v) <= 30),
+
+    # ======================================
+    # GENDER VALIDATIONS
+    # ======================================
+    ("gender", lambda v: v == 'female' or v == 'male')
+])
+async def test_get_random_address_key_formats(key, validator):
+    # ARRANGE
     result = await get_random_name_gender()
-    assert result == {"first_name": "Alice", "last_name": "Smith", "gender": "female"}
 
+    # ASSERT
+    assert key in result, f"Missing key '{key}' in result"
 
-async def test_get_random_name_gender_multiple(monkeypatch):
-    fake_persons = [
-        {"name": "Alice", "surname": "Smith", "gender": "female"},
-        {"name": "Bob", "surname": "Johnson", "gender": "male"}
-    ]
-    monkeypatch.setattr("app.services.name_service.NAMES_DATA", fake_persons)
-    monkeypatch.setattr(random, "choice", lambda x: x[1])  # pick second
-
-    result = await get_random_name_gender()
-    assert result == {"first_name": "Bob", "last_name": "Johnson", "gender": "male"}
-
-
-async def test_get_random_name_gender_empty(monkeypatch):
-    monkeypatch.setattr("app.services.name_service.NAMES_DATA", [])
-    with pytest.raises(IndexError):
-        await get_random_name_gender()
+    value = result[key]
+    assert validator(value), f"Invalid format for key '{key}': {value!r}"

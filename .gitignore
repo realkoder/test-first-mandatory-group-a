@@ -3,6 +3,8 @@
 
 server/reports/
 
+.coverage
+
 ### Linux ###
 *~
 

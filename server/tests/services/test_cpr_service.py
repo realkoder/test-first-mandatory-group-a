@@ -33,3 +33,31 @@ async def test_generate_cpr_returns_cpr_string_with_hyphen():
     
     # And regex
     assert re.fullmatch(r"\d{6}-\d{4}", cpr), "cpr should be ddmmyy-xxxx"
+
+
+async def test_generate_cpr_last_digit_match_gender(monkeypatch):
+    fake_male = {"name": "Niels", "surname": "Bohr", "gender": "male"}
+    fake_female = {"name": "Marie", "surname": "Curie", "gender": "female"}
+
+
+    def fake_get_person_male():
+        return fake_male
+
+    def fake_get_person_female():
+        return fake_female
+
+
+    monkeypatch.setattr("app.services.cpr_service.get_person", fake_get_person_male)
+    result_male = await generate_cpr()
+    cpr_male = result_male["cpr"]
+
+    monkeypatch.setattr("app.services.cpr_service.get_person", fake_get_person_female)
+    result_female = await generate_cpr()
+    cpr_female = result_female["cpr"]
+
+
+    last_digit_male = int(cpr_male[-1])
+    last_digit_female = int(cpr_female[-1])
+
+    assert last_digit_male % 2 == 1, f"Expected male CPR to end with an odd digit, got {last_digit_male}"
+    assert last_digit_female % 2 == 0, f"Expected female CPR to end with an even digit, got {last_digit_female}"

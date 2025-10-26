@@ -13,7 +13,6 @@ from app.services.phone_service import generate_phone_number, VALID_PREFIXES
     lambda v: any(v.startswith(prefix) for prefix in VALID_PREFIXES),
 ])
 async def test_generate_phone_number_key_properties(validator):
-    """Integration test following your original pattern"""
     # ACT
     result = await generate_phone_number()
 

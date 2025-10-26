@@ -35,7 +35,7 @@ Ensure to be positioned at `./`
 docker-compose -f docker-compose.dev.yml up
 ```
 
-Now you have _Python server_ running on `PORT: 8000` and 
+Now you have _Python server_ running on `PORT: 8000` and
 frontend on `PORT: 3000` served with _node based http server_.
 
 ---
@@ -64,7 +64,15 @@ poetry run pytest -v
 White box testing with pytest - gets statements, missing paths, branches, code coverage and missing lines
 
 ```bash
-poetry run pytest --cov=app --cov-branch --cov-report=term-missing:skip-covered
+poetry run pytest --cov=app --cov-branch --cov-report=term-missing
+```
+
+Generate coverage report with _pytest-cov_
+
+(if used for sonarqube remember to ensure this `<source>./app</source>` for `./server/coverage.xml`)
+
+```bash
+pytest --cov=./app --cov-report=xml --cov-report=html --cov-report=term-missing
 ```
 
 ---

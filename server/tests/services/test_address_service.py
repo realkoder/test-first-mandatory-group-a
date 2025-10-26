@@ -18,7 +18,7 @@ from app.services.address_service import get_random_address
     ("number", lambda v: v.isalnum() and 1 <= len(v) <= 4),
 
     # ======================================
-    # NUMBER VALIDATIONS
+    # FLOOR VALIDATIONS
     # ======================================
     ("floor", lambda v: v == "st" or (v.isalnum and 1 <= len(v) <= 2)),
 

@@ -5,10 +5,9 @@ import datetime
 from app.repository.repository import get_person
 
 
-# Kirsten Schwalbe's DOB.
-epoch = datetime.date(1914, 3, 10)
-
-def generate_dob(epoch):
+def generate_dob():
+    # Kirsten Schwalbe's DOB.
+    epoch = datetime.date(1914, 3, 10)
     today = datetime.date.today()
 
     delta = today - epoch
@@ -25,7 +24,7 @@ async def generate_cpr_name_gender_dob():
     person = get_person()
     
     # DOB and first 6 CPR digits
-    dob = generate_dob(epoch)
+    dob = generate_dob()
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":
@@ -52,7 +51,7 @@ async def generate_cpr():
     person = get_person()
 
     # DOB and first 6 CPR digits
-    dob = generate_dob(epoch)
+    dob = generate_dob()
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":
@@ -73,7 +72,7 @@ async def generate_cpr():
 
 async def generate_name_gender_dob():
     person = get_person()
-    dob = generate_dob(epoch)
+    dob = generate_dob()
 
     return {
         "first_name": person["name"],
@@ -84,7 +83,7 @@ async def generate_name_gender_dob():
 
 async def generate_cpr_name_gender():
     person = get_person()
-    dob = generate_dob(epoch)
+    dob = generate_dob()
 
     # Last digit based on gender + 3x random nums
     if person["gender"] == "female":

@@ -23,13 +23,19 @@ def test_generate_dob_returns_date_and_string():
 
 async def test_generate_cpr_returns_cpr_string_with_hyphen():
     result = await generate_cpr()
+    cpr = result["cpr"]
 
+
+    # Positive Testing
     assert isinstance(result, dict), "result should be a dict"
     assert "cpr" in result, "'CPR' key should be in result dict"
 
-    cpr = result["cpr"]
     assert isinstance(cpr, str), "cpr should be a string"
     assert len(cpr) == 11, "cpr string should be 11 chars including hyphen"
+
+    # Negative Testing
+    assert "name" not in result, "This function should not return 'Name' key"
+    assert not isinstance(cpr, int), "CPR number variable should not be an integer"
     
     # And regex
     assert re.fullmatch(r"\d{6}-\d{4}", cpr), "cpr should be ddmmyy-xxxx"
@@ -71,3 +77,26 @@ def test_generate_dob_string_matches_date():
 
     assert dob_date.day == int(day), "something"
     assert dob_date.month == int(month), "something"
+
+
+
+def _test_generate_dob_day_and_month_bounds():
+    # Without knowing the year, allow February up to 29
+    dob_ddmmyy = generate_dob()
+
+    dd = int(dob_ddmmyy[:2])
+    mm = int(dob_ddmmyy[2:4])
+
+    max_days = {
+        1: 31, 2: 29, 3: 31,  4: 30,  5: 31,  6: 30,
+        7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+    }
+
+    # Lower bounds
+    assert dd >= 1, f"Day {dd} is below minimum"
+    assert mm >= 1, f"Month {mm} is below minimum"
+
+    # Upper bounds
+    assert dd <= max_days[mm], f"Day {dd} invalid for month {mm}"
+    assert mm <= 12, f"Month {mm} is above maximum value"
+

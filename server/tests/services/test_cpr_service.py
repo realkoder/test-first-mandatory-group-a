@@ -61,3 +61,13 @@ async def test_generate_cpr_last_digit_match_gender(monkeypatch):
 
     assert last_digit_male % 2 == 1, f"Expected male CPR to end with an odd digit, got {last_digit_male}"
     assert last_digit_female % 2 == 0, f"Expected female CPR to end with an even digit, got {last_digit_female}"
+
+
+def test_generate_dob_string_matches_date():
+    dob_date, dob_ddmmyy = generate_dob()
+
+    day = int(dob_ddmmyy[:2])
+    month = int(dob_ddmmyy[2:4])
+
+    assert dob_date.day == int(day), "something"
+    assert dob_date.month == int(month), "something"
